@@ -31,6 +31,7 @@ function App() {
           <Route path="/pivot-management" element={<PivotManagement />} />
           <Route path="/chart" element={<ChartManagement />} />
           <Route path="/chart/builder" element={<ChartView />} />
+          <Route path="/chart/:chartId" element={<ChartView />} />
           <Route path="/design" element={<DesignManagement />} />
           <Route path="/design/:chartId" element={<DesignMode />} />
         </Routes>

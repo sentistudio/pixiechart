@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useMemo, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -33,8 +33,9 @@ ChartJS.register(
 
 const ChartView: React.FC = () => {
   const navigate = useNavigate()
+  const { chartId } = useParams<{ chartId?: string }>()
   const { datasets, charts, activeDataset, getDataset, addChart, updateChart, deleteChart, deleteChartWithDesignChoice, getChartDesigns } = useStore()
-  const [selectedChartId, setSelectedChartId] = useState<string | null>(null)
+  const [selectedChartId, setSelectedChartId] = useState<string | null>(chartId || null)
   const [chartConfig, setChartConfig] = useState({
     type: 'bar' as 'bar' | 'horizontalBar' | 'line' | 'pie' | 'doughnut',
     title: 'New Chart',
@@ -69,6 +70,44 @@ const ChartView: React.FC = () => {
 
   const dataset = activeDataset ? getDataset(activeDataset) : datasets[0]
   const selectedChart = selectedChartId ? charts.find(c => c.id === selectedChartId) : null
+
+  // Load existing chart data when chartId is provided in URL
+  useEffect(() => {
+    if (chartId && charts.length > 0) {
+      const chart = charts.find(c => c.id === chartId)
+      if (chart) {
+        setSelectedChartId(chartId)
+        // Load the chart configuration
+        setChartConfig({
+          type: chart.type,
+          title: chart.title,
+          xField: chart.data.xField,
+          yFields: chart.data.yFields,
+          groupBy: chart.data.groupBy || '',
+          stackedGrouping: chart.data.stackedGrouping ?? true,
+          colors: chart.style.colors,
+          showLegend: chart.style.showLegend,
+          showValues: chart.style.showValues,
+          showPercentages: chart.style.showPercentages || false,
+          showCategoryNames: chart.style.showCategoryNames || true,
+          sortBy: chart.data.sortBy || 'none',
+          xAxisSortBy: chart.data.xAxisSortBy || 'none',
+          yAxisSortBy: chart.data.yAxisSortBy || 'none',
+          rangeMode: chart.style.rangeMode || 'auto',
+          rangeMin: chart.style.rangeMin || 0,
+          rangeMax: chart.style.rangeMax || 100,
+          omitZeroValues: chart.style.omitZeroValues || false,
+          showCenterTotal: chart.style.showCenterTotal || false,
+          doughnutSize: chart.style.doughnutSize || 50,
+          labelsOutside: chart.style.labelsOutside || false,
+          pieSpacing: chart.style.pieSpacing || 0,
+          titleFontSize: chart.style.titleFontSize || 16,
+          legendFontSize: chart.style.legendFontSize || 12,
+          labelsFontSize: chart.style.labelsFontSize || 12,
+        })
+      }
+    }
+  }, [chartId, charts])
 
   const availableFields = useMemo(() => {
     if (!dataset) return []

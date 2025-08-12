@@ -20,10 +20,8 @@ const ChartManagement: React.FC = () => {
   const handleEditChart = (chartId: string) => {
     const chart = charts.find(c => c.id === chartId)
     if (chart) {
-      // Set the chart as active and navigate to chart builder
-      const { setActiveChart } = useStore.getState()
-      setActiveChart(chartId)
-      navigate('/chart/builder')
+      // Navigate to the chart view/edit page
+      navigate(`/chart/${chartId}`)
     }
   }
   
@@ -40,6 +38,10 @@ const ChartManagement: React.FC = () => {
   
   const handleCreateNewChart = () => {
     navigate('/chart/builder')
+  }
+  
+  const handleViewChart = (chartId: string) => {
+    navigate(`/chart/${chartId}`)
   }
   
   const handleStartTitleEdit = (chartId: string, currentTitle: string) => {
