@@ -52,8 +52,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Sidebar */}
       <div className="w-64 bg-clr-bg-secondary border-r border-clr-border flex flex-col">
         <div className="p-6">
-          <h1 className="text-2xl font-bold text-clr-text">PixieChart</h1>
-          <p className="text-sm text-clr-text-secondary mt-1">Data visualization made simple</p>
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/logo.svg" 
+              alt="pixiechart logo" 
+              className="h-8 w-8 flex-shrink-0"
+            />
+            <h1 className="text-2xl font-light text-clr-text">pixiechart</h1>
+          </div>
         </div>
         
         <nav className="px-4 space-y-2">
