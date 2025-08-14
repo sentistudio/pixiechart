@@ -58,7 +58,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               alt="pixiechart logo" 
               className="h-8 w-8 flex-shrink-0"
             />
-            <h1 className="text-2xl font-light text-clr-text">pixiechart</h1>
+            <div className="flex items-center space-x-2">
+              <h1 className="text-2xl font-light text-clr-text">pixiechart</h1>
+              <span className="px-2 py-1 text-xs font-medium bg-clr-accent/20 text-clr-accent rounded-full border border-clr-accent/30">
+                BETA
+              </span>
+            </div>
           </div>
         </div>
         
